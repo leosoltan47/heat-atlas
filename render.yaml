@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: heat-atlas
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: CACHE_DIR
+        value: /tmp/heat-atlas-cache
