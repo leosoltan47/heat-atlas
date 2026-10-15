@@ -4,7 +4,7 @@ A React + Python climate explorer for historical heatwaves. Choose a city or coo
 
 ## Run locally
 
-Requirements: Python 3.11+ and Node.js 20.19+ (Node 22.12+ or 24 recommended).
+Requirements: Python 3.12+ and Node.js 20.19+ (Node 22.12+ or 24 recommended). The Vercel deployment uses Python 3.14, pinned in `.python-version` and `uv.lock`; the Docker image uses Python 3.12.
 
 ```sh
 python -m venv .venv
@@ -32,6 +32,8 @@ docker run --rm -p 8000:8000 -e PORT=8000 heat-atlas
 ```
 
 Optional environment variables: `CACHE_DIR` (default `data/` locally, `/tmp/heat-atlas-cache` in Docker), `CORS_ORIGINS` (comma-separated, exact origins). Place a public deployment behind HTTPS. Do not enable arbitrary forwarded-header trust; configure only the actual hosting proxy if needed.
+
+Vercel is another deployment option: `app.py` exposes the FastAPI app and `vercel.json` builds React and includes its assets. Deploy with `vercel deploy`. Vercel instances use a temporary, per-instance TinyDB cache under `/tmp`; histories are refetched after cold starts. This is an expendable cache of public data, not durable application storage. Quotas and cache coordination are per process, not shared between serverless instances. A temporary Vercel deployment was checked with the real Nicosia request and a subsequent cached request; keeping its link live requires claiming it through a hosting account.
 
 ## Architecture
 
